@@ -24,7 +24,7 @@ country_codes = []
 for country in issuu_user_data:
     country_codes.append(country["visitor_country"])
 
-df_user_data = pd.DataFrame(country_codes, columns=['visitor_country'])
+df_user_data = pd.DataFrame(columns=[ 'country_code', 'country_name', 'continent'])
 
 df_country_and_code = pd.read_csv("countries.csv")
 dict_country_and_code = dict(zip(df_country_and_code.country_code , df_country_and_code.name))
@@ -37,12 +37,14 @@ df_user_data_test = pd.DataFrame()
 for country in country_codes:
     if dict_country_and_code[country]:
         if dict_country_and_continent[dict_country_and_code[country]]:
+            
             new_row = {
                 'country_code': country,
                 'country_name': dict_country_and_code[country],
                 'continent': dict_country_and_continent[dict_country_and_code[country]]
              }
-            df_user_data_test = df_user_data_test.append(new_row, ignore_index=True)
+            df_new_row = pd.DataFrame([new_row])
+            df_user_data = pd.concat([df_user_data, df_new_row], axis=0, ignore_index=True)
     else:
         continue
         
@@ -53,7 +55,7 @@ for country in country_codes:
 #     print (key)
 
 
-df_countries_count = df_user_data_test['continent'].value_counts().rename_axis('continent').reset_index(name='counts')
+df_countries_count = df_user_data['continent'].value_counts().rename_axis('continent').reset_index(name='counts')
 
 names = df_countries_count['continent']
 values = df_countries_count['counts']
