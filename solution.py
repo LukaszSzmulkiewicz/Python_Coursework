@@ -15,7 +15,7 @@ import json
 # print("File name is: " + file_name)
 issuu_user_data = []
 
-with open('sample_small.json') as f:
+with open('data/sample_small.json') as f:
         for jsonObj in f:
             user_data = json.loads(jsonObj)
             issuu_user_data.append(user_data)    
@@ -26,10 +26,10 @@ for country in issuu_user_data:
 
 df_user_data = pd.DataFrame(columns=[ 'country_code', 'country_name', 'continent'])
 
-df_country_and_code = pd.read_csv("countries.csv")
+df_country_and_code = pd.read_csv("data/countries.csv")
 dict_country_and_code = dict(zip(df_country_and_code.country_code , df_country_and_code.name))
             
-df_country_and_continent = pd.read_csv("continents.csv")
+df_country_and_continent = pd.read_csv("data/continents.csv")
 dict_country_and_continent = dict(zip(df_country_and_continent.country , df_country_and_continent.continent))
 
 dict_user_data = {}

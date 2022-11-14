@@ -20,7 +20,7 @@ class CountryContinentViewer:
     # print("File name is: " + file_name)
     issuu_user_data = []
 
-    with open('sample_small.json') as f:
+    with open('data/sample_small.json') as f:
             for jsonObj in f:
                 user_data = json.loads(jsonObj)
                 issuu_user_data.append(user_data) 
@@ -33,12 +33,12 @@ class CountryContinentViewer:
     return country_codes
     
   def load_countries_to_dictionary():
-    df_country_and_code = pd.read_csv("countries.csv")
+    df_country_and_code = pd.read_csv("data/countries.csv")
     dict_country_and_code = dict(zip(df_country_and_code.country_code , df_country_and_code.name))
     return dict_country_and_code
   
   def load_continents_to_dictionary():
-    df_country_and_continent = pd.read_csv("continents.csv")
+    df_country_and_continent = pd.read_csv("data/continents.csv")
     dict_country_and_continent = dict(zip(df_country_and_continent.country , df_country_and_continent.continent))
     return dict_country_and_continent
 
