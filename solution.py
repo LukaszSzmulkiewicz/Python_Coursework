@@ -9,60 +9,38 @@ import string
 import matplotlib.pyplot as plt
 import pandas as pd
 import json
+import CountryContinentViewer as CCV
 
+ccv = CCV.CountryContinentViewer()
 
+# getting a dataframe from a class
+df_user_data = ccv.df_user_data
 # file_name = input("Enter File Name:")
 # print("File name is: " + file_name)
-issuu_user_data = []
 
-with open('data/sample_small.json') as f:
-        for jsonObj in f:
-            user_data = json.loads(jsonObj)
-            issuu_user_data.append(user_data)    
+# loading the issuu user data 
+issuu_user_data = ccv.load_json()
 
-country_codes = []
-for country in issuu_user_data:
-    country_codes.append(country["visitor_country"])
+# getting country codes from the json objects 
+country_codes = ccv.load_country_codes(issuu_user_data)
 
-df_user_data = pd.DataFrame(columns=[ 'country_code', 'country_name', 'continent'])
+# loading dictionary with country names data with country code as a key
+dict_country_and_code = ccv.load_countries_to_dictionary()
 
-df_country_and_code = pd.read_csv("data/countries.csv")
-dict_country_and_code = dict(zip(df_country_and_code.country_code , df_country_and_code.name))
+# loading dictionary with countries and continent names 
+dict_country_and_continent = ccv.load_continents_to_dictionary()
             
-df_country_and_continent = pd.read_csv("data/continents.csv")
-dict_country_and_continent = dict(zip(df_country_and_continent.country , df_country_and_continent.continent))
-
-dict_user_data = {}
-df_user_data_test = pd.DataFrame()
-for country in country_codes:
-    if dict_country_and_code[country]:
-        if dict_country_and_continent[dict_country_and_code[country]]:
-            
-            new_row = {
-                'country_code': country,
-                'country_name': dict_country_and_code[country],
-                'continent': dict_country_and_continent[dict_country_and_code[country]]
-             }
-            df_new_row = pd.DataFrame([new_row])
-            df_user_data = pd.concat([df_user_data, df_new_row], axis=0, ignore_index=True)
-    else:
-        continue
-        
+# creating a data frame with country codes, countries and continents which will be used for plotting  
+df_user_data = ccv.assign_countries_and_continents(country_codes, dict_country_and_code, dict_country_and_continent )        
 
 # print(df_user_data)
 
 # for key, value in dict_country_and_continent.items() :
 #     print (key)
 
-
-df_countries_count = df_user_data['country_name'].value_counts().rename_axis('country_name').reset_index(name='counts')
-
-names = df_countries_count['country_name']
-values = df_countries_count['counts']
-fig, (ax1) = plt.subplots(figsize=(30, 8))
-ax1.bar(names, values)
-ax1.set_xticklabels(names, rotation=55, ha='right')
-plt.show()
+# plotting results 
+ccv.plot_country()
+ccv.plot_continent()
 
 
 
