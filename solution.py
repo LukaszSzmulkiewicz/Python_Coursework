@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 #!/bin/env python
-# Simple regular expression examples
 
 
 import argparse
-import CountryContinentViewer as CCV
+import CountryContinentViewer
+import HelperMethods
 
-ccv = CCV.CountryContinentViewer()
+ccv = CountryContinentViewer.CountryContinentViewer()
+hm = HelperMethods.HelperMethods()
 
 # function to task 2 setup
 def task_2_setup(issuu_user_data):
@@ -33,7 +34,7 @@ def run(args):
   file_name = args.file_name # file name
   
   # loading the issuu user data 
-  issuu_user_data = ccv.load_json(file_name)
+  issuu_user_data = hm.load_json(file_name)
   # getting a dataframe from a class
       
 
@@ -55,9 +56,6 @@ def run(args):
     return "task 6 is running"
   elif task_id == "7":
     return "task 7 is running"
-
-
-
 
 def main():
   parser=argparse.ArgumentParser(description="Run a coursework with a command line interface")
