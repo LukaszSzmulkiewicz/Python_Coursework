@@ -8,20 +8,21 @@ import CountryContinentViewer as CCV
 
 ccv = CCV.CountryContinentViewer()
 
+# function to task 2 setup
+def task_2_setup(issuu_user_data):
+    df_user_data = ccv.df_user_data
+      
+    # getting country codes from the json objects 
+    country_codes = ccv.load_country_codes(issuu_user_data)
 
-# file_name = input("Enter File Name:")
-# print("File name is: " + file_name)
+    # loading dictionary with country names data with country code as a key
+    dict_country_and_code = ccv.load_countries_to_dictionary()
 
-
-
-
-
-# print(df_user_data)
-
-# for key, value in dict_country_and_continent.items() :
-#     print (key)
-
-# plotting results 
+    # loading dictionary with countries and continent names 
+    dict_country_and_continent = ccv.load_continents_to_dictionary()
+                
+    # creating a data frame with country codes, countries and continents which will be used for plotting  
+    ccv.assign_countries_and_continents(country_codes, dict_country_and_code, dict_country_and_continent )  
 
 
 
@@ -34,26 +35,14 @@ def run(args):
   # loading the issuu user data 
   issuu_user_data = ccv.load_json(file_name)
   # getting a dataframe from a class
-  df_user_data = ccv.df_user_data
       
-  # getting country codes from the json objects 
-  country_codes = ccv.load_country_codes(issuu_user_data)
-
-  # loading dictionary with country names data with country code as a key
-  dict_country_and_code = ccv.load_countries_to_dictionary()
-
-  # loading dictionary with countries and continent names 
-  dict_country_and_continent = ccv.load_continents_to_dictionary()
-              
-  # creating a data frame with country codes, countries and continents which will be used for plotting  
-  df_user_data = ccv.assign_countries_and_continents(country_codes, dict_country_and_code, dict_country_and_continent )        
-
-
 
   if task_id == "2a":
-    return ccv.plot_country()
+      task_2_setup(issuu_user_data)
+      return ccv.plot_country()
   elif task_id == "2b":
-    return ccv.plot_continent()
+      task_2_setup(issuu_user_data)
+      return ccv.plot_continent()
   elif task_id == "3a":
     return print("task 3a is running")
   elif task_id == "3b":
