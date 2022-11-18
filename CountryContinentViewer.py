@@ -59,7 +59,7 @@ class CountryContinentViewer:
 
     names = df_countries_count['country_name']
     values = df_countries_count['counts']
-    fig, (ax1) = plt.subplots(figsize=(30, 8))
+    fig, (ax1) = plt.subplots(figsize=(20, 9))
     ax1.bar(names, values)
     ax1.set_xticklabels(names, rotation=55, ha='right')
     plt.show()
@@ -70,7 +70,7 @@ class CountryContinentViewer:
 
     names = df_continent_count['continent']
     values = df_continent_count['counts']
-    fig, (ax1) = plt.subplots(figsize=(30, 8))
+    fig, (ax1) = plt.subplots(figsize=(20, 9))
     ax1.bar(names, values)
     ax1.set_xticklabels(names, rotation=30, ha='right')
     plt.show()
