@@ -9,13 +9,13 @@ class CountryContinentViewer:
 
   df_user_data = pd.DataFrame(columns=[ 'country_code', 'country_name', 'continent'])
 
-  def load_json(self):
+  def load_json(self, file_name):
 
     # file_name = input("Enter File Name:")
     # print("File name is: " + file_name)
     issuu_user_data = []
 
-    with open('data/sample_small.json') as f:
+    with open('data/' + file_name) as f:
             for jsonObj in f:
                 user_data = json.loads(jsonObj)
                 issuu_user_data.append(user_data) 
