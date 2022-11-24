@@ -4,9 +4,11 @@
 
 import argparse
 import CountryContinentViewer
+import BrowserViewer
 import HelperMethods
 
 ccv = CountryContinentViewer.CountryContinentViewer()
+bv = BrowserViewer.BrowserViewer()
 hm = HelperMethods.HelperMethods()
 
 # function to task 2 setup
@@ -38,6 +40,21 @@ def task_2_setup(issuu_user_data, taks_number):
 
     return df_user_data
 
+#function to task 3 setup
+def task_2_setup(issue_user_data, taks_number):
+    #getting user agent code from the json objects
+    browser_codes = bv.load_browser_codes(issue_user_data)
+    
+    #converting list of browser codes to dataframe
+    df_browser_codes = bv.list_to_dataframe(browser_codes)
+
+    #count browser code occurences
+    df_browser_codes_count = bv.count_browser_codes_occurrences(df_browser_codes)
+
+    if taks_number == '3a':
+      #loading dataframe with browser codes
+      df_browser_data = df_browser_codes_count
+
 
 
 def run(args):
@@ -58,7 +75,8 @@ def run(args):
       df_user_data = task_2_setup(issuu_user_data, task_id)
       return ccv.plot_continent(df_user_data)
   elif task_id == "3a":
-    return print("task 3a is running")
+      df_browser_data = task_2_setup(issuu_user_data, task_id)
+      return bv.plot_browsers(df_browser_data)
   elif task_id == "3b":
     return print("task 3b is running")
   elif task_id == "4":
