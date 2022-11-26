@@ -5,39 +5,59 @@
 import argparse
 import CountryContinentViewer
 import HelperMethods
+import ReaderCounter
 
 ccv = CountryContinentViewer.CountryContinentViewer()
 hm = HelperMethods.HelperMethods()
+rc = ReaderCounter.ReaderCounter()
 
 # function to task 2 setup
-def task_2_setup(issuu_user_data, taks_number):
-    # getting country codes from the json objects 
-    country_codes = ccv.load_country_codes(issuu_user_data)
+def task_2_setup(file_name, taks_number):
+   # loading the issuu user data 
+  issuu_user_data = hm.load_json(file_name)
+  # getting country codes from the json objects 
+  country_codes = ccv.load_country_codes(issuu_user_data)
    
-    # converting list of country codes to dataframe
-    df_country_codes = ccv.list_to_dataframe(country_codes)
+  # converting list of country codes to dataframe
+  df_country_codes = ccv.list_to_dataframe(country_codes)
    
-    # count country codes occurrences
-    df_country_codes_count = ccv.count_country_codes_occurrences(df_country_codes)
+  # count country codes occurrences
+  df_country_codes_count = ccv.count_country_codes_occurrences(df_country_codes)
                 
-    if taks_number == '2a':
-      # loading dataframe with country names 
-      df_country_and_code = ccv.load_countries_to_dataframe()
+  if taks_number == '2a':
+    # loading dataframe with country names 
+    df_country_and_code = ccv.load_countries_to_dataframe()
 
-      # creating a data frame with country codes and countries which will be used for plotting  
-      df_user_data = ccv.assign_countries_to_country_codes(df_country_codes_count, df_country_and_code)
-    elif taks_number =='2b':
-      # loading dataframe with continent names 
-      df_continents = ccv.load_continents_to_dataframe()
+    # creating a data frame with country codes and countries which will be used for plotting  
+    df_user_data = ccv.assign_countries_to_country_codes(df_country_codes_count, df_country_and_code)
+  elif taks_number =='2b':
+    # loading dataframe with continent names 
+    df_continents = ccv.load_continents_to_dataframe()
 
-      # creating a data frame with country codes and continents   
-      df_continent_and_country = ccv.assign_continents_to_country_codes(df_country_codes_count, df_continents)
+    # creating a data frame with country codes and continents   
+    df_continent_and_country = ccv.assign_continents_to_country_codes(df_country_codes_count, df_continents)
 
-      # counting continent occurrences
-      df_user_data = ccv.count_continents_occurrences(df_continent_and_country)
+    # counting continent occurrences
+    df_user_data = ccv.count_continents_occurrences(df_continent_and_country)
 
-    return df_user_data
+  return df_user_data
 
+# method to setup data for plotting of task 4
+def task_4_setup(file_name):
+  #loading data from json
+  issuu_user_data = hm.load_json_re(file_name, 'event_readtime')
+
+  # loading readers from a list retrieved from json
+  list_user_data = rc.load_readers(issuu_user_data)
+  
+  # assignment of column names to df
+  df_readers = rc.assign_column_names_to_df(list_user_data)
+
+  # returning readers count
+  df_readers_count = rc.best_readers_count(df_readers)
+
+  df_result = rc.return_10_best_readers(df_readers_count)
+  return df_result
 
 
 def run(args):
@@ -46,23 +66,23 @@ def run(args):
   task_id = args.task_id # task id
   file_name = args.file_name # file name
   
-  # loading the issuu user data 
-  issuu_user_data = hm.load_json(file_name)
+ 
   # getting a dataframe from a class
       
 
   if task_id == "2a":
-      df_user_data = task_2_setup(issuu_user_data, task_id)
-      return ccv.plot_country(df_user_data)
+    df_user_data = task_2_setup(file_name, task_id)
+    return ccv.plot_country(df_user_data)
   elif task_id == "2b":
-      df_user_data = task_2_setup(issuu_user_data, task_id)
-      return ccv.plot_continent(df_user_data)
+    df_user_data = task_2_setup(file_name, task_id)
+    return ccv.plot_continent(df_user_data)
   elif task_id == "3a":
-    return print("task 3a is running")
+    return print("task 3b is running")
   elif task_id == "3b":
     return print("task 3b is running")
   elif task_id == "4":
-    return print("task 4 is running")
+    df_user_data = task_4_setup(file_name)
+    return rc.plot_readers(df_user_data)
   elif task_id == "5d":
     return print("task 5d is running")
   elif task_id == "6":

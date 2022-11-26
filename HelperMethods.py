@@ -19,7 +19,7 @@ class HelperMethods:
       return issuu_user_data
   
   # method to load json with a regex pattern
-  def load_json_re(file_name, regex_name):
+  def load_json_re(self,file_name, regex_name):
       issuu_user_data = []
       try:
             with open('data/' + file_name, encoding='utf-8') as f:
