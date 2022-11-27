@@ -41,7 +41,7 @@ def task_2_setup(issuu_user_data, taks_number):
     return df_user_data
 
 #function to task 3 setup
-def task_2_setup(issue_user_data, taks_number):
+def task_3_setup(issue_user_data, taks_number):
     #getting user agent code from the json objects
     browser_codes = bv.load_browser_codes(issue_user_data)
     
@@ -51,9 +51,10 @@ def task_2_setup(issue_user_data, taks_number):
     #count browser code occurences
     df_browser_codes_count = bv.count_browser_codes_occurrences(df_browser_codes)
 
-    if taks_number == '3a':
+    if taks_number == "3a":
       #loading dataframe with browser codes
       df_browser_data = df_browser_codes_count
+      return df_browser_data
 
 
 
@@ -75,7 +76,7 @@ def run(args):
       df_user_data = task_2_setup(issuu_user_data, task_id)
       return ccv.plot_continent(df_user_data)
   elif task_id == "3a":
-      df_browser_data = task_2_setup(issuu_user_data, task_id)
+      df_browser_data = task_3_setup(issuu_user_data, task_id)
       return bv.plot_browsers(df_browser_data)
   elif task_id == "3b":
     return print("task 3b is running")

@@ -3,9 +3,13 @@
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import HelperMethods
 
 class BrowserViewer:
 
+  hm = HelperMethods.HelperMethods()
+  
+  issuu_user_data = hm.load_json("sample_small.json")
   # df_user_data = pd.DataFrame(columns=[ 'country_code', 'country', 'continent', 'counts'])
 
   def load_browser_codes(self, issuu_user_data):
@@ -23,9 +27,10 @@ class BrowserViewer:
     return df_browser_codes_new
 
   def plot_browsers(self, df_user_data):
-    names = df_user_data['visitor_useragent']
+    names = df_user_data['browser_code']
     values = df_user_data['counts']
     fig, (ax1) = plt.subplots(figsize=(25, 15))
     ax1.bar(names, values)
     ax1.set_xticklabels(names, rotation=55, ha='right')
     plt.show()
+  
