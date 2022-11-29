@@ -6,15 +6,18 @@ import argparse
 import CountryContinentViewer
 import HelperMethods
 import ReaderCounter
+import BrowserViewer
 
 ccv = CountryContinentViewer.CountryContinentViewer()
 hm = HelperMethods.HelperMethods()
 rc = ReaderCounter.ReaderCounter()
+bv = BrowserViewer.BrowserViewer()
 
 # function to task 2 setup
 def task_2_setup(file_name, taks_number):
    # loading the issuu user data 
   issuu_user_data = hm.load_json(file_name)
+
   # getting country codes from the json objects 
   country_codes = ccv.load_country_codes(issuu_user_data)
    
@@ -41,6 +44,23 @@ def task_2_setup(file_name, taks_number):
     df_user_data = ccv.count_continents_occurrences(df_continent_and_country)
 
   return df_user_data
+
+#function to task 3 setup
+def task_3_setup(file_name, taks_number):
+    # loading the issuu user data 
+    issuu_user_data = hm.load_json_specific(file_name, 'visitor_useragent')
+
+    #getting user agent code from the json objects
+    list_browser_codes = bv.parse_user_agents(issuu_user_data)
+
+    #converting list of browser codes to dataframe
+    df_browser_codes = bv.browsers_to_dataframe(list_browser_codes)
+
+    #count browser code occurences
+    df_browser_codes_count = bv.count_browser_codes_occurrences(df_browser_codes)
+
+    if taks_number == "3a":
+      return df_browser_codes_count
 
 # method to setup data for plotting of task 4
 def task_4_setup(file_name):
@@ -77,7 +97,8 @@ def run(args):
     df_user_data = task_2_setup(file_name, task_id)
     return ccv.plot_continent(df_user_data)
   elif task_id == "3a":
-    return print("task 3b is running")
+    df_user_data = task_3_setup(file_name, task_id)
+    return bv.plot_browsers(df_user_data)
   elif task_id == "3b":
     return print("task 3b is running")
   elif task_id == "4":
